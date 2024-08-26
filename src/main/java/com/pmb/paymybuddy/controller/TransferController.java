@@ -22,7 +22,6 @@ public class TransferController {
 
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("message", "Test");
         return "transfer";
     }
 }
