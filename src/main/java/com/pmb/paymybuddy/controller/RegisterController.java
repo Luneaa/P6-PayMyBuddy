@@ -1,7 +1,7 @@
 package com.pmb.paymybuddy.controller;
 
 import com.pmb.paymybuddy.model.User;
-import com.pmb.paymybuddy.service.UserService;
+import com.pmb.paymybuddy.service.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,15 +10,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequiredArgsConstructor
 public class RegisterController {
     private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
-    private final UserService userService;
+    private final IUserService userService;
 
-    private static final String ERROR_REDIRECT = "redirect:/register?error";
+    private static final String ERROR_REDIRECT = "redirect:/register";
 
     private static final String ERROR_ATTRIBUTE = "error";
 
@@ -31,27 +32,30 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("user") User user, Model model) {
+    public ModelAndView register(@ModelAttribute("user") User user) {
         if (userService.existsByUsername(user.getUsername())){
             logger.error("Username {} already exists", user.getUsername());
-            model.addAttribute(ERROR_ATTRIBUTE, "Nom d'utilisateur déjà utilisé");
-            return ERROR_REDIRECT;
+            var modelAndView = new ModelAndView(ERROR_REDIRECT);
+            modelAndView.addObject(ERROR_ATTRIBUTE, "Nom d'utilisateur déjà utilisé");
+            return modelAndView;
         }
 
         if (userService.existsByEmail(user.getEmail())){
             logger.error("Email {} already exists", user.getEmail());
-            model.addAttribute(ERROR_ATTRIBUTE, "Email déjà utilisé");
-            return ERROR_REDIRECT;
+            var modelAndView = new ModelAndView(ERROR_REDIRECT);
+            modelAndView.addObject(ERROR_ATTRIBUTE, "Email déjà utilisé");
+            return modelAndView;
         }
 
         try {
             userService.saveUser(user);
             logger.info("User account created for {}", user.getUsername());
-            return "redirect:/login";
+            return new ModelAndView("redirect:/login");
         }
         catch (IllegalArgumentException e) {
-            model.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
-            return ERROR_REDIRECT;
+            var modelAndView = new ModelAndView(ERROR_REDIRECT);
+            modelAndView.addObject(ERROR_ATTRIBUTE, e.getMessage());
+            return modelAndView;
         }
     }
 }

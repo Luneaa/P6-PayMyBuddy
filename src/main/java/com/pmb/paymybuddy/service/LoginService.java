@@ -1,7 +1,8 @@
 package com.pmb.paymybuddy.service;
 
 import com.pmb.paymybuddy.model.User;
-import com.pmb.paymybuddy.repository.UserRepository;
+import com.pmb.paymybuddy.repository.IUserRepository;
+import com.pmb.paymybuddy.service.interfaces.ILoginService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,13 +13,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class LoginService {
+public class LoginService implements ILoginService {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
 
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Override
     public Optional<User> login(String email, String password) {
         logger.info("Login attempt for user : {}", email);
         var userOptional = userRepository.findByEmail(email);

@@ -1,6 +1,6 @@
 package com.pmb.paymybuddy.service;
 
-import com.pmb.paymybuddy.repository.UserRepository;
+import com.pmb.paymybuddy.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository repository;
+    private final IUserRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         var userOptional = repository.findByEmail(email);
 
         if (userOptional.isEmpty()){
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("Utilisateur inconnu");
         }
 
         var user = userOptional.get();

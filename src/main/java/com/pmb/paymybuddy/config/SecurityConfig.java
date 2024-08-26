@@ -22,6 +22,8 @@ public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
 
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -47,6 +49,7 @@ public class SecurityConfig {
                         .usernameParameter("email")
                         .defaultSuccessUrl(TRANSFER_PATH, true)
                         .permitAll()
+                        .failureHandler(customAuthenticationFailureHandler)
                 )
                 .logout(logout -> logout
                         .logoutUrl(LOGOUT_PATH)

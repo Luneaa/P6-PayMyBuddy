@@ -18,7 +18,7 @@
         <button type="submit">Connection</button>
     </form>
     <div th:if="${param.error}" class="alert alert-danger">
-        Email ou mot de passe incorrect
+        <p th:text="${param.error}"></p>
     </div>
 </body>
 </html>
