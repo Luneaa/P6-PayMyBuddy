@@ -1,11 +1,76 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Transfer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transférer</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
- <h1 th:text="'Thymeleaf ' + ${message} + ' App'"></h1>
+<body class="bg-gray-100">
+<!-- Header Section -->
+<header class="flex justify-between items-center py-4 px-6 bg-white shadow">
+    <div class="text-lg font-bold">Pay My Buddy</div>
+    <nav class="space-x-4">
+        <a th:href="@{/transfer}" class="text-gray-600 hover:text-sky-500 font-bold">Transférer</a>
+        <a href="#" class="text-gray-600 hover:text-sky-500 font-bold">Profil</a>
+        <a th:href="@{/userconnections}" class="text-gray-600 hover:text-sky-500 font-bold">Ajouter relation</a>
+        <a th:href="@{/logout}" class="text-gray-600 hover:text-sky-500 font-bold">Se déconnecter</a>
+    </nav>
+</header>
+
+<!-- Main Form Section -->
+<div class="flex flex-col items-center mt-10">
+    <!-- Transfer Form -->
+    <form th:action="@{/transfer}" method="post" class="bg-white p-6 rounded shadow-md w-full max-w-4xl mb-10">
+        <div class="grid grid-cols-4 gap-4">
+            <!-- Select Relation -->
+            <div>
+                <select name="username" id="username" class="block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <!-- Options des relations -->
+                    <option th:each="relation : ${relations}" th:value="${relation.username}" th:text="${relation.username}"></option>
+                </select>
+            </div>
+            <!-- Description Input -->
+            <div>
+                <input class="block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" name="description" id="description" placeholder="Description" required>
+            </div>
+            <!-- Amount Input -->
+            <div>
+                <input class="block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" type="number" name="amount" id="amount" placeholder="0€" required>
+            </div>
+            <!-- Submit Button -->
+            <div class="flex justify-center">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Payer
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Transaction Table -->
+    <div class="w-full max-w-4xl">
+        <table class="min-w-full bg-white rounded-lg shadow">
+            <thead>
+                <tr class="text-left border-b">
+                    <th class="py-2 px-4 font-bold">Relations</th>
+                    <th class="py-2 px-4 font-bold">Description</th>
+                    <th class="py-2 px-4 font-bold">Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b" th:each="transaction : ${transactions}">
+                    <td class="py-2 px-4" th:text="${transaction.username}"></td>
+                    <td class="py-2 px-4" th:text="${transaction.description}"></td>
+                    <td class="py-2 px-4" th:text="${transaction.amount}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Error Message Section -->
+<div th:if="${param.error}" class="text-center text-red-500 mt-4">
+    <p th:text="${param.error}"></p>
+</div>
 </body>
 </html>

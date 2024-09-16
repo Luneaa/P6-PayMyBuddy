@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `paymybuddy`.`Transactions`(
                                                      `id_transaction` INT NOT NULL AUTO_INCREMENT,
                                                      `sender_id` INT NOT NULL,
                                                      `receiver_id` INT NOT NULL,
+                                                     `date` DATETIME NOT NULL,
                                                      `description` VARCHAR(45) NULL,
     `amount` DOUBLE NOT NULL,
     PRIMARY KEY (`id_transaction`),
@@ -102,7 +103,9 @@ INSERT INTO paymybuddy.userconnections (id_user, id_user_connected_to) VALUES (1
 INSERT INTO paymybuddy.userconnections (id_user, id_user_connected_to) VALUES (2, 3);
 
 -- Add transactions
-INSERT INTO paymybuddy.transactions (sender_id, receiver_id, description, amount)
-VALUES (1, 2, 'resto', 25);
-INSERT INTO paymybuddy.transactions (sender_id, receiver_id, description, amount)
-VALUES (2, 3, 'cine', 15);
+INSERT INTO paymybuddy.transactions (sender_id, receiver_id, date, description, amount)
+VALUES (1, 2, '2020-01-20 10:20:30' ,'resto', 25);
+INSERT INTO paymybuddy.transactions (sender_id, receiver_id, date, description, amount)
+VALUES (2, 1, '2020-01-19 19:20:00' ,'cinema', 12);
+INSERT INTO paymybuddy.transactions (sender_id, receiver_id, date, description, amount)
+VALUES (2, 3, '2020-02-22 11:41:27', 'cine', 15);
