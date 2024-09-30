@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,15 +26,13 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@RequestParam String email, @RequestParam String password){
+    public String login(@RequestParam String email, @RequestParam String password, RedirectAttributes model){
         var userOptional = loginService.login(email, password);
 
         if (userOptional.isEmpty()){
-            var modelAndView = new ModelAndView("redirect:/login");
-            modelAndView.addObject("error", "Email ou mot de passe incorrect");
-            return modelAndView;
+            return "redirect:/login";
         }
 
-        return new ModelAndView("redirect:/transfer");
+        return "redirect:/transfer";
     }
 }

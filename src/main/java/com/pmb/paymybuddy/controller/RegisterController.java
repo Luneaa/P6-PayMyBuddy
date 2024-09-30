@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,30 +33,27 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public ModelAndView register(@ModelAttribute("user") User user) {
+    public String register(@ModelAttribute("user") User user, RedirectAttributes model) {
         if (userService.existsByUsername(user.getUsername())){
             logger.error("Username {} already exists", user.getUsername());
-            var modelAndView = new ModelAndView(ERROR_REDIRECT);
-            modelAndView.addObject(ERROR_ATTRIBUTE, "Nom d'utilisateur déjà utilisé");
-            return modelAndView;
+            model.addFlashAttribute(ERROR_ATTRIBUTE, "Nom d'utilisateur déjà utilisé");
+            return ERROR_REDIRECT;
         }
 
         if (userService.existsByEmail(user.getEmail())){
             logger.error("Email {} already exists", user.getEmail());
-            var modelAndView = new ModelAndView(ERROR_REDIRECT);
-            modelAndView.addObject(ERROR_ATTRIBUTE, "Email déjà utilisé");
-            return modelAndView;
+            model.addFlashAttribute(ERROR_ATTRIBUTE, "Email déjà utilisé");
+            return ERROR_REDIRECT;
         }
 
         try {
             userService.saveUser(user);
             logger.info("User account created for {}", user.getUsername());
-            return new ModelAndView("redirect:/login");
+            return "redirect:/login";
         }
         catch (IllegalArgumentException e) {
-            var modelAndView = new ModelAndView(ERROR_REDIRECT);
-            modelAndView.addObject(ERROR_ATTRIBUTE, e.getMessage());
-            return modelAndView;
+            model.addFlashAttribute(ERROR_ATTRIBUTE, e.getMessage());
+            return ERROR_REDIRECT;
         }
     }
 }

@@ -38,8 +38,8 @@
     </form>
     <!-- Error Message Section -->
     <div>
-        <div th:if="${param.errorMessage}" class="alert alert-danger text-center">
-            <p th:text="${param.error}"></p>
+        <div th:if="${error}" class="alert alert-danger text-center">
+            <p th:text="${error}"></p>
         </div>
         <!-- Placeholder for error message -->
     </div>

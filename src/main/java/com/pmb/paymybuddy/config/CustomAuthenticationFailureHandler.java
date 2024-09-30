@@ -16,6 +16,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
-        redirectStrategy.sendRedirect(request, response, "/login?error=Email+ou+mot+de+passe+incorrect");
+        redirectStrategy.sendRedirect(request, response, "/login?error=true");
     }
 }
