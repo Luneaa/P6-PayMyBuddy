@@ -152,8 +152,8 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>com/safetynet/alerts/model/*</exclude>
-                        <exclude>com/safetynet/alerts/dto/*</exclude>
+                        <exclude>com/pmb/paymybuddy/config/*</exclude>
+                        <exclude>com/pmb/paymybuddy/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
