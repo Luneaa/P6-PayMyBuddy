@@ -26,7 +26,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String password, RedirectAttributes model){
+    public String login(@RequestParam String email, @RequestParam String password){
         var userOptional = loginService.login(email, password);
 
         if (userOptional.isEmpty()){
