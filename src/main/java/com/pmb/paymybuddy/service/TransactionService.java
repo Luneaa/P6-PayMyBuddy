@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+/**
+ * Manages transactions between users
+ */
 @Service
 @RequiredArgsConstructor
 public class TransactionService implements com.pmb.paymybuddy.service.interfaces.ITransactionService {
@@ -19,6 +22,12 @@ public class TransactionService implements com.pmb.paymybuddy.service.interfaces
 
     private final ITransactionRepository transactionRepository;
 
+    /**
+     * Gets the given user's transactions
+     *
+     * @param userId User id of the user we want to get the transactions from
+     * @return A list of all the user's transactions
+     */
     @Override
     public List<TransferItem> getTransactions(Integer userId) {
         var result = new ArrayList<TransferItem>();
@@ -50,9 +59,20 @@ public class TransactionService implements com.pmb.paymybuddy.service.interfaces
         // Sort elements
         result.sort(Collections.reverseOrder());
 
+        logger.info("Transactions for user get");
+
         return result;
     }
 
+    /**
+     * Adds a transaction corresponding to the given values
+     *
+     * @param sender User that sent the money
+     * @param receiver User that received the money
+     * @param description Description of the transaction
+     * @param amount Amount of money sent
+     * @return A transaction object describing the new transaction
+     */
     public Transaction addTransaction(User sender, User receiver, String description, double amount) {
         Transaction result = new Transaction();
 
@@ -63,6 +83,8 @@ public class TransactionService implements com.pmb.paymybuddy.service.interfaces
         result.setDate(Calendar.getInstance().getTime());
 
         transactionRepository.save(result);
+
+        logger.info("New transaction added");
 
         return result;
     }

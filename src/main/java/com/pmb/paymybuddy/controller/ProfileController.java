@@ -11,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * Manages profile actions
+ */
 @Controller
 @RequiredArgsConstructor
 public class ProfileController {
@@ -23,6 +25,15 @@ public class ProfileController {
 
     private static final String ERROR_ATTRIBUTE = "error";
 
+    private static final String REDIRECT_PROFILE = "redirect:/profile";
+
+    /**
+     * Gets the profile of the current user
+     *
+     * @param user Current logged in user
+     * @param model Model of the current page
+     * @return Path of the profile page or redirect if fail
+     */
     @GetMapping("/profile")
     public String getProfile(@AuthenticationPrincipal User user, Model model) {
         logger.info("Get profile form page");
@@ -41,6 +52,15 @@ public class ProfileController {
         return "profile";
     }
 
+    /**
+     * Updates the current user's profile
+     *
+     * @param email New email for the user
+     * @param password New password for the user
+     * @param user Current user logged in
+     * @param model Model of the current page
+     * @return Path of the profile page
+     */
     @PostMapping("/profile")
     public String postProfile(@RequestParam String email, @RequestParam String password, @AuthenticationPrincipal User user, RedirectAttributes model) {
         var currentUserOptional = userService.getUserByUsername(user.getUsername());
@@ -53,7 +73,7 @@ public class ProfileController {
         if (userService.existsByEmail(email) && !email.equals(currentUserOptional.get().getEmail())){
             logger.error("Email {} already exists", email);
             model.addFlashAttribute(ERROR_ATTRIBUTE, "Email déjà utilisé");
-            return "redirect:/profile";
+            return REDIRECT_PROFILE;
         }
 
         var currentUser = currentUserOptional.get();
@@ -68,9 +88,9 @@ public class ProfileController {
         catch (IllegalArgumentException e) {
             model.addFlashAttribute(ERROR_ATTRIBUTE, e.getMessage());
 
-            return "redirect:/profile";
+            return REDIRECT_PROFILE;
         }
 
-        return "redirect:/profile";
+        return REDIRECT_PROFILE;
     }
 }

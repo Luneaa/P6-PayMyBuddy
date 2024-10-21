@@ -153,6 +153,7 @@
                 <configuration>
                     <excludes>
                         <exclude>com/pmb/paymybuddy/config/*</exclude>
+                        <exclude>com/pmb/paymybuddy/dto/*</exclude>
                         <exclude>com/pmb/paymybuddy/*</exclude>
                     </excludes>
                 </configuration>

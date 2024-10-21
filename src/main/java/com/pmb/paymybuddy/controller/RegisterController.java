@@ -10,9 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * Manages register actions
+ */
 @Controller
 @RequiredArgsConstructor
 public class RegisterController {
@@ -25,6 +27,12 @@ public class RegisterController {
     private static final String ERROR_ATTRIBUTE = "error";
 
 
+    /**
+     * Gets the register page
+     *
+     * @param model Model of the register page
+     * @return Path of the register page
+     */
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
         logger.info("Get register form");
@@ -32,6 +40,13 @@ public class RegisterController {
         return "register";
     }
 
+    /**
+     * Registers a new user
+     *
+     * @param user New user to register
+     * @param model Model of the current page
+     * @return Path to the login page or redirect if issue
+     */
     @PostMapping("/register")
     public String register(@ModelAttribute("user") User user, RedirectAttributes model) {
         if (userService.existsByUsername(user.getUsername())){

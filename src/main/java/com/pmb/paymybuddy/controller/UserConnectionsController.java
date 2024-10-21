@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Manages user connections actions
+ */
 @Controller
 @RequiredArgsConstructor
 public class UserConnectionsController {
@@ -23,12 +26,24 @@ public class UserConnectionsController {
 
     private static final String ERROR_ATTRIBUTE = "error";
 
+    /**
+     * Gets the user connection page
+     *
+     * @return Path to the user connection page
+     */
     @GetMapping("/userconnections")
     public String getConnections() {
         logger.info("Get user connections form page");
         return "userconnections";
     }
 
+    /**
+     * Tries to add a new user connection
+     *
+     * @param email Email of the user currently being added
+     * @param user Currently logged in user
+     * @return Path of the redirected page
+     */
     @PostMapping("/adduserconnection")
     public ModelAndView addUserConnection(@RequestParam String email, @AuthenticationPrincipal User user) {
 

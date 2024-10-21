@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
+/**
+ * Manages money transfers
+ */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/transfer")
@@ -21,6 +24,13 @@ public class TransferController {
     private final ITransactionService transactionService;
     private final IUserService userService;
 
+    /**
+     * Gets the current transaction page
+     *
+     * @param model Model of the transaction page
+     * @param user Current logged in user
+     * @return Path to the transaction page
+     */
     @GetMapping
     public String index(Model model, @AuthenticationPrincipal User user) {
 
@@ -41,6 +51,15 @@ public class TransferController {
         return "transfer";
     }
 
+    /**
+     * Tries to add a new transaction
+     *
+     * @param username User to send money to
+     * @param description Description of the transaction
+     * @param amount Amount of money to send
+     * @param user Currently logged in user
+     * @return Path to the transfer page
+     */
     @PostMapping
     public String post(@RequestParam String username, @RequestParam String description, @RequestParam double amount, @AuthenticationPrincipal User user) {
         var receiver = userService.getUserByUsername(username);

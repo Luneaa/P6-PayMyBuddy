@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Manage login
+ */
 @Service
 @RequiredArgsConstructor
 public class LoginService implements ILoginService {
@@ -20,6 +23,13 @@ public class LoginService implements ILoginService {
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Tries to log the user with the given credentials
+     *
+     * @param email email to use
+     * @param password password to use
+     * @return Optional of the user
+     */
     @Override
     public Optional<User> login(String email, String password) {
         logger.info("Login attempt for user : {}", email);

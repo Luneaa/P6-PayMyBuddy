@@ -14,6 +14,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final IUserRepository repository;
 
+    /**
+     * Loads a user using the given email
+     *
+     * @param email Email used to find the user to load
+     * @return User account for the given email
+     * @throws UsernameNotFoundException if the user is not found
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         var userOptional = repository.findByEmail(email);

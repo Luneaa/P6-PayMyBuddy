@@ -7,11 +7,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * Manages logout calls
+ */
 @Controller
 @RequiredArgsConstructor
 public class LogoutController {
     private static final Logger logger = LoggerFactory.getLogger(LogoutController.class);
 
+    /**
+     * Executes the logout action
+     *
+     * @param request Current request
+     * @return Path to the login page
+     */
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         var session = request.getSession(false);
