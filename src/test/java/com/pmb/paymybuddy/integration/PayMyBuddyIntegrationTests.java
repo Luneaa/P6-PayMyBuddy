@@ -4,16 +4,22 @@ import com.pmb.paymybuddy.P6PayMyBuddyApplication;
 import com.pmb.paymybuddy.service.interfaces.ILoginService;
 import com.pmb.paymybuddy.service.interfaces.ITransactionService;
 import com.pmb.paymybuddy.service.interfaces.IUserService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_CLASS;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_CLASS;
 
 @Transactional()
 @SpringBootTest(classes = P6PayMyBuddyApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Sql(value = {"/test_script.sql"}, executionPhase = BEFORE_TEST_CLASS)
+@Sql(value = {"/script.sql"}, executionPhase = AFTER_TEST_CLASS)
 class PayMyBuddyIntegrationTests {
 
     @Autowired
