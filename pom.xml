@@ -156,6 +156,10 @@
                         <exclude>com/pmb/paymybuddy/dto/*</exclude>
                         <exclude>com/pmb/paymybuddy/*</exclude>
                     </excludes>
+                    <includes>
+                        <include>com/pmb/paymybuddy/controller/*</include>
+                        <include>com/pmb/paymybuddy/service/*</include>
+                    </includes>
                 </configuration>
             </plugin>
         </plugins>
